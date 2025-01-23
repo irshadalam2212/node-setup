@@ -1,0 +1,1 @@
+export const DB_NAME = 'Database name which you want to keep as database name'
