@@ -124,6 +124,22 @@ const loginUser = asyncHandler(async (req, res) => {
         )
 })
 
+const getAllUser = asyncHandler(async (req, res) => {
+    
+    try {
+        const users = await User.find().sort({createdAt: 1}).select("-password -refreshToken");
+    
+        if(!users) {
+            throw new ApiError(404, "No users found");
+        }
+    
+        return res.status(200).json(new ApiResponse(200, users, "Users fetched successfully"));
+    } catch (error) {
+        throw new ApiError(500, "Something went wrong while fetching users");
+        
+    }
+})
+
 const logoutUser = asyncHandler(async (req, res) => {
     await User.findByIdAndUpdate(
         req.user._id,
@@ -255,5 +271,6 @@ export {
     refreshAccessToken,
     changeCurrentPassword,
     getCurrentUser,
-    updateAccountDetails
+    updateAccountDetails,
+    getAllUser
 }

@@ -32,7 +32,7 @@ const createCustomer = asyncHandler (async(req, res) => {
 const getAllCustomers = asyncHandler(async (req, res) => {
     
     try {
-        const customers = await Customer.find();
+        const customers = await Customer.find().sort({createdAt: 1});
     
         if(!customers) {
             throw new ApiError(404, "No customer found");

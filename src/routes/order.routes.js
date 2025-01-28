@@ -15,7 +15,7 @@ const router = Router()
 router.route("/create-order").post(verifyJWT, createOrder)
 router.route("/orders").get(verifyJWT, getAllOrders)
 router.route("/order/:orderId").get(verifyJWT, getOrderByOrderId)
-router.route("/update-order-status/:orderId").put(verifyJWT, updateOrderStatus)
+router.route("/update-order-status/:orderId/:userId/:customerId").put(verifyJWT, updateOrderStatus)
 router.route("/delete-order/:orderId").delete(verifyJWT, deleteOrder)
 router.route("/update-order/:orderId").put(verifyJWT, updateOrder)
 

@@ -29,6 +29,10 @@ const userSchema = new Schema(
             type: String,
             required: [true, "Password is required"]
         },
+        totalSale: {
+            type: Number,
+            default: 0
+        },
         refreshToken: {
             type: String
         }

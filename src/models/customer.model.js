@@ -1,4 +1,4 @@
-import mongoose, {Schema} from "mongoose";
+import mongoose, { Schema } from "mongoose";
 
 const customerSchema = new Schema(
     {
@@ -19,6 +19,10 @@ const customerSchema = new Schema(
         shopName: {
             type: String,
             required: true
+        },
+        totalOrder: {
+            type: Number,
+            default: 0
         },
     },
     {

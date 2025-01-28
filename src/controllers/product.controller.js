@@ -87,7 +87,7 @@ const deleteProduct = asyncHandler(async (req, res) => {
 
 const getAllProducts = asyncHandler(async (req, res) => {
     try {
-        const products = await Product.find();
+        const products = await Product.find().sort({createdAt: 1});
     
         if (!products) {
             throw new ApiError(404, "No products found");
@@ -108,7 +108,7 @@ const getProductByProductId = asyncHandler(async (req, res) => {
          throw new ApiError(404, "Product not found");
      }
  
-     return res.status(200).json(200, product, "Product retrieved successfully");
+     return res.status(200).json( new ApiResponse(200, product, "Product retrieved successfully"));
  
    } catch (error) {
      throw new ApiError(500, "Something went wrong while fetching product");
