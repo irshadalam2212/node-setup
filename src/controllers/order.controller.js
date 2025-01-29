@@ -70,7 +70,7 @@ const createOrder = asyncHandler(async (req, res) => {
 const getAllOrders = asyncHandler(async (req, res) => {
 
     try {
-        const orders = await Order.find().sort({ createdAt: 1 });
+        const orders = await Order.find().sort({ createdAt: -1 });
 
         if (!orders) {
             throw new ApiError(404, "No order found");

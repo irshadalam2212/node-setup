@@ -87,7 +87,7 @@ const deleteProduct = asyncHandler(async (req, res) => {
 
 const getAllProducts = asyncHandler(async (req, res) => {
     try {
-        const products = await Product.find().sort({createdAt: 1});
+        const products = await Product.find().sort({createdAt: -1});
     
         if (!products) {
             throw new ApiError(404, "No products found");

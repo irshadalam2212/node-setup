@@ -127,7 +127,7 @@ const loginUser = asyncHandler(async (req, res) => {
 const getAllUser = asyncHandler(async (req, res) => {
     
     try {
-        const users = await User.find().sort({createdAt: 1}).select("-password -refreshToken");
+        const users = await User.find().sort({createdAt: -1}).select("-password -refreshToken");
     
         if(!users) {
             throw new ApiError(404, "No users found");
