@@ -70,7 +70,7 @@ const createOrder = asyncHandler(async (req, res) => {
 const getAllOrders = asyncHandler(async (req, res) => {
 
     try {
-        const orders = await Order.find().sort({createdAt: 1});
+        const orders = await Order.find().sort({ createdAt: 1 });
 
         if (!orders) {
             throw new ApiError(404, "No order found");
@@ -188,11 +188,47 @@ const updateOrder = asyncHandler(async (req, res) => {
     }
 });
 
+const dashboardStats = asyncHandler(async (req, res) => {
+    try {
+        let today = new Date()
+        const startOfDay = new Date(today.setHours(0, 0, 0, 0))
+        const endOfDay = new Date(today.setHours(23, 59, 59, 999))
+    
+        const stats = await Order.aggregate([
+            {
+                $match: {
+                    createdAt: {$gte: startOfDay, $lte: endOfDay}
+                }
+            },
+            {
+                $project: {
+                    totalAmount: 1, // Include totalAmount to calculate sales
+                    products: 1 // Include only the products array
+                }
+            },
+            
+            {
+                $group: {
+                    _id: null,
+                    totalSales: { $sum: "$totalAmount" },
+                    totalOrders: { $sum: 1 },
+                    productSold:  { $sum: { $size: "$products" } } // Count each product object 
+                }
+            }
+        ])
+        const result = stats.length > 0 ? stats : { totalSales: 0, totalOrders: 0, productSold: 0 };
+        return res.status(200).json(new ApiResponse(200, result))
+    } catch (error) {
+        throw new ApiError(500, "Something went wrong while calculating total");
+    }
+})
+
 export {
     createOrder,
     getAllOrders,
     getOrderByOrderId,
     updateOrderStatus,
     deleteOrder,
-    updateOrder
+    updateOrder,
+    dashboardStats
 }

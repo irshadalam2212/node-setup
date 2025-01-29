@@ -2,6 +2,7 @@ import { Router } from 'express';
 import { verifyJWT } from '../middlewares/auth.middleware.js';
 import {
     createOrder,
+    dashboardStats,
     deleteOrder,
     getAllOrders,
     getOrderByOrderId,
@@ -18,5 +19,6 @@ router.route("/order/:orderId").get(verifyJWT, getOrderByOrderId)
 router.route("/update-order-status/:orderId/:userId/:customerId").put(verifyJWT, updateOrderStatus)
 router.route("/delete-order/:orderId").delete(verifyJWT, deleteOrder)
 router.route("/update-order/:orderId").put(verifyJWT, updateOrder)
+router.route("/dashboard-stats").get(verifyJWT, dashboardStats)
 
 export default router
